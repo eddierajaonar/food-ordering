@@ -83,7 +83,7 @@ npm install
 ### Lancer l'application
 
 ```bash
-npm start          # Démarre le serveur de développement Expo
+npm expo start          # Démarre le serveur de développement Expo
 npm run android    # Ouvre sur Android
 npm run ios        # Ouvre sur iOS
 npm run web        # Ouvre dans le navigateur
