@@ -1,25 +1,32 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Image, StyleSheet, Pressable } from "react-native";
 import {Text, View} from "@/src/components/Themed";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, router, useRoute, useRouter } from "expo-router";
 import products from '@/assets/data/products';
 import { defaultPizzaImage } from "@/src/components/ProductListItem";
 import { useState } from "react";
 import Button from "@/src/components/Button";
+import { useCart } from "@/src/providers/CartProvider";
+import { PizzaSize } from "@/src/types";
 
 
 const productDetailsScreen = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
+    const {addItem} = useCart();
 
-    const sizes = ['S', 'M', 'L', 'XL'];
-    const [selectedSize, setSelectedSize] = useState('M');
+    const router = useRouter();
 
-    const addToCart =()=> {
-        console.warn('add to cart Ok, size: ', selectedSize)
-    }
+    const sizes: PizzaSize[] = ["S", "M", "L", "XL"];
+    const [selectedSize, setSelectedSize] = useState<PizzaSize>("M");
     
 
     const product = products.find((product) => product.id.toString() === id);
+
+    const addToCart = () => {
+      if(!product) {return; }
+      addItem(product,selectedSize);
+      router.push('/cart');
+    };
 
     if(!product) {
         return <Text>Product not found !</Text>

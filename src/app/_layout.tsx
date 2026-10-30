@@ -3,12 +3,13 @@ import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import CartProvider from "../providers/CartProvider";
 
 import { useColorScheme } from "@/src/components/useColorScheme";
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+  ErrorBoundary
 } from "expo-router";
 
 export const unstable_settings = {
@@ -47,10 +48,23 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
+      <CartProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="cart"
+            options={{
+              title: "Panier",
+              // "modal" looks like a regular push on Android; formSheet uses the native bottom sheet
+              presentation: "formSheet",
+              sheetAllowedDetents: [0.5, 1],
+              sheetInitialDetentIndex: 1,
+              sheetGrabberVisible: true,
+              sheetCornerRadius: 24,
+            }}
+          />
+        </Stack>
+      </CartProvider>
     </ThemeProvider>
   );
 }

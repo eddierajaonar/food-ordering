@@ -1,3 +1,9 @@
+export type CartType = {
+  items: CartItem[];
+  addItem: (product: Product, size: CartItem["size"]) => void;
+  updateQuantity: (itemId: string, amount: -1 | 1) => void;
+};
+
 export type Product = {
   id: number;
   image: string | null;
